@@ -86,10 +86,10 @@ export function getEdit(req, res, next) {
 }
 
 export function postEdit(req, res, next) {
-
     console.log("Body recibido:", req.body);
     const name = req.body.name;
-    const typeId = parseInt(req.body.typeId);     
+    const typeId = parseInt(req.body.typeId);
+    const secondaryTypeId = parseInt(req.body.secondaryTypeId);
     const regionId = parseInt(req.body.regionId); 
     const photo = req.body.photo;
     const id = req.params.id;
@@ -98,7 +98,7 @@ export function postEdit(req, res, next) {
         .then((pokemon) => {
             if (pokemon) {
                 context.Pokemons.update(
-                    { name: name, pokemonTypesId: typeId, regionId: regionId, photo: photo }, // ← pokemonTypesId
+                    { name: name, pokemonTypesId: typeId, secondaryTypeId: secondaryTypeId, regionId: regionId, photo: photo },
                     { where: { id: id } }
                 )
                 .then(() => res.redirect("/pokemons/index"))
@@ -109,7 +109,6 @@ export function postEdit(req, res, next) {
             }
         })
 }
-   
 export function Delete(req,res,next){
     const id = req.body.id;
     context.Pokemons.findOne({ where: { id: id } })
