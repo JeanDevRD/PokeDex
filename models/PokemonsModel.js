@@ -28,7 +28,7 @@ const Pokemons = connection.define("Pokemons",{
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: "Region",
+            model: "Regions",
             key: "id"
         }
     }
