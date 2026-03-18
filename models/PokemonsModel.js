@@ -22,7 +22,8 @@ const Pokemons = connection.define("Pokemons", {
         references: {
             model: "PokemonTypes",
             key: "id"
-        }
+        },
+        onDelete: "CASCADE"
     },
     secondaryTypeId: {
         type: DataTypes.INTEGER,
@@ -30,7 +31,8 @@ const Pokemons = connection.define("Pokemons", {
         references: {
             model: "PokemonTypes",
             key: "id"
-        }
+        },
+        onDelete: "CASCADE"
     },
     regionId: {
         type: DataTypes.INTEGER,
@@ -38,7 +40,8 @@ const Pokemons = connection.define("Pokemons", {
         references: {
             model: "Regions",
             key: "id"
-        }
+        },
+        onDelete: "CASCADE"
     }
 },
     {
