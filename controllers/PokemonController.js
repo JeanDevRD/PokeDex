@@ -1,15 +1,22 @@
 import context from "../context/DbContext.js";
 
 export function getIndex(req, res, next) {
-    context.Pokemons.findAll({include: [context.PokemonTypes, context.Regions]})
+    context.Pokemons.findAll({
+        include: [
+            { model: context.PokemonTypes, as: "PrimaryType" },
+            { model: context.PokemonTypes, as: "SecondaryType" },
+            context.Regions
+        ]
+    })
         .then((pokemons) => {
             const pokemonsData = pokemons.map((result) => result.get({ plain: true }));
-            res.render("pokemons/index", {title: "Pokémons",
+            res.render("pokemons/index", {
+                title: "Pokémons",
                 pokemons: pokemonsData,
                 hasPokemons: pokemonsData.length > 0
             });
-        })
-} 
+        });
+}
 
 export function getCreate(req, res, next) {
 
@@ -39,10 +46,11 @@ export function getCreate(req, res, next) {
 export function postCreate(req,res,next){
     const name = req.body.name;
     const typeId = parseInt(req.body.typeId);
+    const secondaryTypeId = parseInt(req.body.secondaryTypeId);
     const regionId = parseInt(req.body.regionId);
     const photo = req.body.photo;
     
-    context.Pokemons.create({name: name, pokemonTypesId: typeId, regionId: regionId, photo: photo})
+    context.Pokemons.create({name: name, pokemonTypesId: typeId, secondaryTypeId: secondaryTypeId, regionId: regionId, photo: photo})
         .then(() => {
             res.redirect("/pokemons/index");
         })
@@ -120,5 +128,18 @@ export function Delete(req,res,next){
         .catch((err) => {
             console.error("Error deleting Pokémon:", err);
             res.status(500).send("Error deleting Pokémon");
+        });
+}
+
+export function getDelete(req, res, next) {
+    const id = req.params.id;
+    context.Pokemons.findOne({ where: { id } })
+        .then((pokemon) => {
+            if (pokemon) {
+                res.render("pokemons/delete", {
+                    title: "Eliminar Pokémon",
+                    pokemon: pokemon.dataValues
+                });
+            }
         });
 }

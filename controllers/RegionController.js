@@ -96,3 +96,16 @@ export function postEdit(req,res,next){
                 res.status(500).send("Error fetching region");
             });
  }
+
+ export function getDelete(req, res, next) {
+    const id = req.params.id;
+    context.Regions.findOne({ where: { id } })
+        .then((region) => {
+            if (region) {
+                res.render("regions/delete", {
+                    title: "Eliminar Región",
+                    region: region.dataValues
+                });
+            }
+        });
+}

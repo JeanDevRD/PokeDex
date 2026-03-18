@@ -9,8 +9,10 @@ connection.authenticate().then(() => {
     console.error("Unable to connect to the database:", err);
 });
 
-PokemonsModel.belongsTo(PokemonTypesModel, { foreignKey: "pokemonTypesId" });
-PokemonTypesModel.hasMany(PokemonsModel, { foreignKey: "pokemonTypesId" });
+PokemonsModel.belongsTo(PokemonTypesModel, { foreignKey: "pokemonTypesId", as: "PrimaryType" });
+PokemonTypesModel.hasMany(PokemonsModel, { foreignKey: "pokemonTypesId", as: "PrimaryPokemons" });
+PokemonsModel.belongsTo(PokemonTypesModel, { foreignKey: "secondaryTypeId", as: "SecondaryType" });
+PokemonTypesModel.hasMany(PokemonsModel, { foreignKey: "secondaryTypeId", as: "SecondaryPokemons" });
 PokemonsModel.belongsTo(RegionsModel, { foreignKey: "regionId" });
 RegionsModel.hasMany(PokemonsModel, { foreignKey: "regionId" });
 

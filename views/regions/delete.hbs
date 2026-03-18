@@ -1,0 +1,25 @@
+<div class="row mb-3">
+    <h1><i class="bi bi-trash3"></i> Eliminar Región</h1>
+    <hr />
+</div>
+<div class="row d-flex justify-content-center">
+    <div class="col-12 col-sm-6">
+        <div class="card shadow-sm border-danger">
+            <div class="card-body text-center">
+                <p class="fs-5">¿Está seguro que desea eliminar esta región?</p>
+                <p class="fw-bold fs-4">{{region.name}}</p>
+                <div class="d-flex gap-3 justify-content-center mt-4">
+                    <a href="/regions/index" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </a>
+                    <form method="post" action="/regions/delete">
+                        <input type="hidden" name="id" value="{{region.id}}" />
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash3"></i> Aceptar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

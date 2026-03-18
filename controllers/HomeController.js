@@ -4,7 +4,11 @@ export async function getIndex(req, res, next) {
     const { searchTerm, typeId, regionId } = req.query;
 
     let pokemons = await context.Pokemons.findAll({
-        include: [context.PokemonTypes, context.Regions]
+        include: [
+            { model: context.PokemonTypes, as: "PrimaryType" },
+            { model: context.PokemonTypes, as: "SecondaryType" },
+            context.Regions
+        ]
     });
 
     let pokemonsData = pokemons.map(p => p.get({ plain: true }));
@@ -14,7 +18,8 @@ export async function getIndex(req, res, next) {
             p.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
     if (typeId)
-        pokemonsData = pokemonsData.filter(p => p.pokemonTypesId == typeId);
+        pokemonsData = pokemonsData.filter(p =>
+            p.pokemonTypesId == typeId || p.secondaryTypeId == typeId);
 
     if (regionId)
         pokemonsData = pokemonsData.filter(p => p.regionId == regionId);

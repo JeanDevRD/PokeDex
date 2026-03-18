@@ -28,16 +28,25 @@
           </div>
             <div class="mb-3">
             <label for="typeId" class="form-label">Tipo de pokemón:</label>
-            <select id="typeId"  class="form-select" name="typeId">
+            <select id="typeId"  class="form-select" name="typeId" required>
               <option value="">Seleccionar opción</option>
            {{#each types}}
               <option value="{{this.id}}" {{#if (eq this.id ../pokemon.pokemonTypesId)}}selected{{/if}}>{{this.name}}</option>
             {{/each}}
             </select>
-          </div> 
+          </div>
+          <div class="mb-3">
+            <label for="secondaryTypeId" class="form-label">Tipo secundario:</label>
+            <select id="secondaryTypeId" class="form-select" name="secondaryTypeId" required>
+              <option value="">Seleccionar opción</option>
+              {{#each types}}
+              <option value="{{this.id}}" {{#if (eq this.id ../pokemon.secondaryTypeId)}}selected{{/if}}>{{this.name}}</option>
+              {{/each}}
+            </select>
+          </div>
           <div class="mb-3">
               <label for="regionId" class="form-label fw-semibold">Región</label>
-              <select id="regionId" class="form-select" name="regionId">
+              <select id="regionId" class="form-select" name="regionId" required>
                 <option value="">Seleccionar opción</option>
                 {{#each regions}}
                   <option value="{{this.id}}" {{#if (eq this.id ../pokemon.regionId)}}selected{{/if}}>{{this.name}}</option>

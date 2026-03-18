@@ -1,14 +1,14 @@
 import connection from "../utils/DbConnection.js";
 import { DataTypes } from "sequelize";
 
-const Pokemons = connection.define("Pokemons",{
-    id:{
+const Pokemons = connection.define("Pokemons", {
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
-    name:{
+    name: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -16,7 +16,7 @@ const Pokemons = connection.define("Pokemons",{
         type: DataTypes.STRING,
         allowNull: false
     },
-    pokemonTypesId:{
+    pokemonTypesId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -24,7 +24,15 @@ const Pokemons = connection.define("Pokemons",{
             key: "id"
         }
     },
-    regionId:{
+    secondaryTypeId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: "PokemonTypes",
+            key: "id"
+        }
+    },
+    regionId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -33,9 +41,9 @@ const Pokemons = connection.define("Pokemons",{
         }
     }
 },
-{
-    tableName: "Pokemons"
-}
+    {
+        tableName: "Pokemons"
+    }
 );
 
 export default Pokemons;

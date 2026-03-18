@@ -96,3 +96,15 @@ export function postEdit(req,res,next){
                 res.status(500).send("Error fetching type");
             });
  }
+ export function getDelete(req, res, next) {
+    const id = req.params.id;
+    context.PokemonTypes.findOne({ where: { id } })
+        .then((type) => {
+            if (type) {
+                res.render("pokemonTypes/delete", {
+                    title: "Eliminar Tipo",
+                    type: type.dataValues
+                });
+            }
+        });
+}
