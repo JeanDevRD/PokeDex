@@ -9,6 +9,7 @@ import { GetSection } from "./utils/helpers/hbs/Section.js";
 import { Equals } from "./utils/helpers/hbs/Compare.js"; 
 import pokemonTypesRouter from "./routes/PokemonTypes-router.js";
 import pokemonRouter from "./routes/Pokemon-router.js";
+import homeRouter from "./routes/Home-router.js";
 
 const app = express();
 
@@ -31,7 +32,7 @@ app.set("views", "views");
 app.use(express.urlencoded());
 app.use(express.static(path.join(projectRoot, "public")));
 
-
+app.use("/", homeRouter);
 app.use("/regions", regionRouter);
 app.use("/pokemonTypes", pokemonTypesRouter);
 app.use("/pokemons", pokemonRouter);
@@ -48,4 +49,3 @@ context.Sequelize.sync()
     console.error("Error connecting to the database:", err);
   });
 
-  

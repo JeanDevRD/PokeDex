@@ -31,7 +31,7 @@
             <select id="typeId"  class="form-select" name="typeId">
               <option value="">Seleccionar opción</option>
            {{#each types}}
-              <option value="{{this.id}}" {{#if (eq this.id ../pokemon.typeId)}}selected{{/if}}>{{this.name}}</option>
+              <option value="{{this.id}}" {{#if (eq this.id ../pokemon.pokemonTypesId)}}selected{{/if}}>{{this.name}}</option>
             {{/each}}
             </select>
           </div> 

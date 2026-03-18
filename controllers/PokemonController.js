@@ -54,46 +54,53 @@ export function postCreate(req,res,next){
 
 export function getEdit(req, res, next) {
     const id = req.params.id;
-    context.Pokemons.findOne({ where: { id: id } })
-        .then((pokemon) => {
-            if(pokemon){
-             const pokemonData = pokemon.dataValues;
-             res.render("pokemons/save", {
-                title: `Edit Pokémon: ${pokemonData.name}`,
-                pokemon: pokemonData,
-                editMode: true
-            });
-            }
-        })
-}
 
-export function postEdit(req,res,next){
-    const name = req.body.name;
-    const typeId = req.body.typeId;
-    const regionId = req.body.regionId;
-    const photo = req.body.photo;
-    const id = req.params.id;
-   
-    context.Pokemons.findOne({ where: { id: id} })
-        .then((pokemon) => {
-            if(pokemon){
-                context.Pokemons.update({name: name, typeId: typeId, regionId: regionId, photo: photo}, { where: { id: id } })
-                    .then(() => {
-                        res.redirect("/pokemons/index");
-                    })
-                    .catch((err) => {
-                        console.error("Error updating Pokémon:", err);
-                        res.status(500).send("Error updating Pokémon");
-                    });
+    const pokemonData = context.Pokemons.findOne({ where: { id: id } });
+    const typesData = context.PokemonTypes.findAll().then(t => t.map(r => r.dataValues));
+    const regionsData = context.Regions.findAll().then(r => r.map(r => r.dataValues));
+
+    Promise.all([pokemonData, typesData, regionsData])
+        .then(([pokemon, types, regions]) => {
+            if (pokemon) {
+                res.render("pokemons/save", {
+                    title: `Edit Pokémon: ${pokemon.name}`,
+                    pokemon: pokemon.dataValues,
+                    types: types,
+                    regions: regions,
+                    editMode: true
+                });
             }
         })
         .catch((err) => {
             console.error("Error fetching Pokémon:", err);
-
             res.status(500).send("Error fetching Pokémon");
-        }
-    )
-};
+        });
+}
+
+export function postEdit(req, res, next) {
+
+    console.log("Body recibido:", req.body);
+    const name = req.body.name;
+    const typeId = parseInt(req.body.typeId);     
+    const regionId = parseInt(req.body.regionId); 
+    const photo = req.body.photo;
+    const id = req.params.id;
+
+    context.Pokemons.findOne({ where: { id: id } })
+        .then((pokemon) => {
+            if (pokemon) {
+                context.Pokemons.update(
+                    { name: name, pokemonTypesId: typeId, regionId: regionId, photo: photo }, // ← pokemonTypesId
+                    { where: { id: id } }
+                )
+                .then(() => res.redirect("/pokemons/index"))
+                .catch((err) => {
+                    console.error("Error updating Pokémon:", err);
+                    res.status(500).send("Error updating Pokémon");
+                });
+            }
+        })
+}
    
 export function Delete(req,res,next){
     const id = req.body.id;
