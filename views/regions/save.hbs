@@ -1,0 +1,38 @@
+<div class="row mb-3">
+  <h1>{{#if editMode}}Editar región{{else}}Crear región{{/if}}</h1>
+  <hr />
+</div>
+
+<div class="row d-flex justify-content-center">
+  <div class="col-12 col-sm-7">
+
+    {{#if error}}
+      <div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> {{error}}</div>
+    {{/if}}
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <form method="post" action="/regions/{{#if editMode}}edit/{{region.id}}{{else}}create{{/if}}">
+
+          <div class="mb-3">
+            <label for="name" class="form-label fw-semibold">Nombre de la región</label>
+            <input type="text" id="name" name="name" class="form-control"
+              placeholder="Ej: Kanto"
+              value="{{#if editMode}}{{region.name}}{{else}}{{formData.name}}{{/if}}" required />
+          </div>
+
+          <div class="d-flex gap-2 mt-4">
+            <a href="/regions/index" class="btn btn-secondary">
+              <i class="bi bi-arrow-left"></i> Volver
+            </a>
+            <button type="submit" class="btn btn-{{#if editMode}}primary{{else}}success{{/if}}">
+              <i class="bi bi-check-circle"></i>
+              {{#if editMode}}Guardar cambios{{else}}Crear región{{/if}}
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
